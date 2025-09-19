@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>nodj</title>
+  <title>تطبيق المحادثة الذكية</title>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet"/>
   <!-- Firebase SDK -->
@@ -89,6 +89,46 @@
     }
     body.dark nav{background:#1e293b;border-color:#334155}
     nav.active{right:0}
+    
+    /* تنسيقات البروفايل في القائمة الجانبية */
+    .user-profile-sidebar {
+      text-align: center;
+      padding: 20px 0;
+      margin-bottom: 15px;
+      border-bottom: 1px solid #eee;
+    }
+    
+    #sidebar-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      margin: 0 auto 10px;
+      overflow: hidden;
+      background: #f1f3f4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    #sidebar-avatar-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    #sidebar-username {
+      font-weight: 600;
+      color: var(--primary);
+    }
+    
+    body.dark .user-profile-sidebar {
+      border-color: #334155;
+    }
+    
+    body.dark #sidebar-avatar {
+      background: #334155;
+    }
+    
     nav a{
       display:flex;align-items:center;gap:8px;
       padding:10px 12px;border-radius:10px;margin:6px 0;
@@ -346,6 +386,42 @@
     body.dark .avatar-preview {
       background: #334155;
     }
+    
+    /* إصلاح مشكلة هبوط الصفحة في كروم عند الكتابة */
+    @media screen and (max-width: 768px) {
+      .chat-container {
+        -webkit-overflow-scrolling: touch;
+        overflow-anchor: none;
+      }
+      
+      .bottom-bar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+      }
+      
+      body {
+        height: 100vh;
+        height: -webkit-fill-available;
+      }
+      
+      html {
+        height: -webkit-fill-available;
+      }
+    }
+
+    /* منع التكبير التلقائي على حقول الإدخال في iOS */
+    input, textarea {
+      font-size: 16px !important;
+    }
+
+    @media screen and (max-width: 480px) {
+      input, textarea, select {
+        font-size: 16px !important;
+        max-height: 44px; /* الحجم الأدنى للمساحة القابلة للنقر في iOS */
+      }
+    }
   </style>
 </head>
 <body>
@@ -353,7 +429,7 @@
   <!-- Top bar -->
   <div class="top-bar">
     <div class="brand">
-      <img class="logo" src="https://i.supaimg.com/88e6bc23-41ac-4443-a144-631a191daa13.png" alt="logo"/>
+      <img class="logo" src="https://i.supaimg.com/08305e3d-4e47-4df2-841c-eb61662481ec.jpg" alt="logo"/>
       <span></span>
     </div>
     <div class="user-pill" id="user-pill" style="display:none">
@@ -367,12 +443,20 @@
 
   <!-- Side Nav -->
   <nav id="sidenav">
+    <div class="user-profile-sidebar">
+      <div id="sidebar-avatar">
+        <img src="https://via.placeholder.com/80?text=ضيف" alt="صورة البروفايل" id="sidebar-avatar-img">
+      </div>
+      <div id="sidebar-username">ضيف</div>
+    </div>
+    
     <a href="#chat" data-view="chat" class="active"><i class="fas fa-comments"></i> المحادثة</a>
     <a href="#projects" data-view="projects"><i class="fas fa-folder-plus"></i> مشروع جديد</a>
     <a href="#settings" data-view="settings"><i class="fas fa-cog"></i> الإعدادات</a>
-    <a href="#signup" data-view="signup"><i class="fas fa-user"></i> Sign-up</a>
-    <li style="margin-top:20px; font-size:12px; text-align:center; opacity:0.6;">
-  Developer: Mostapha Hachmi</li>
+    <a href="#signup" data-view="signup"><i class="fas fa-user"></i> تسجيل الدخول</a>
+    <div style="margin-top:20px; font-size:12px; text-align:center; opacity:0.6;">
+      Developer: Mostapha Hachmi
+    </div>
   </nav>
 
   <!-- Main -->
@@ -543,16 +627,16 @@
     <section id="view-signup" class="view">
       <div class="container">
         <div class="card" id="signup-card">
-          <div class="section-title"><i class="fas fa-user-plus icon-pulse"></i> إنشاء حساب</div>
-          <input type="text" id="reg-name" placeholder="الاسم الكامل"><br><br>
-          <input type="text" id="reg-username" placeholder="اسم المستخدم"><br><br>
-          <input type="email" id="reg-email" placeholder="البريد الإلكتروني"><br><br>
-          <input type="password" id="reg-pass" placeholder="كلمة المرور"><br><br>
+          <div class="section-title"><i class="fas fa-user-plus icon-pulse"></i> إنشاء حساب +</div>
+          <input type="text" id="reg-name" placeholder="اسم مستخدم"><br><br>
+          <input type="text" id="reg-username" placeholder="يوزر مستخدم"><br><br>
+          <input type="email" id="reg-email" placeholder="exemple@gmail.com"><br><br>
+          <input type="password" id="reg-pass" placeholder="كلمة سر"><br><br>
           
           <!-- حقل رفع صورة البروفايل -->
           <div class="profile-upload">
             <label for="reg-avatar" class="upload-label">
-              <i class="fas fa-cloud-upload-alt"></i> اختر صورة البروفايل
+              <i class="fas fa-cloud-upload-alt"></i> اختر صورة البروفايل 💬
             </label>
             <input type="file" id="reg-avatar" accept="image/*" style="display: none;">
             <div id="avatar-preview" class="avatar-preview"></div>
@@ -577,14 +661,14 @@
   <script>
     // Firebase Configuration
     const firebaseConfig = {
-     apiKey: "AIzaSyDapVPbaFhIdhamTTklZ3i5uD3KWiWWouY",
-  authDomain: "juttiiu.firebaseapp.com",
-  projectId: "juttiiu",
-  storageBucket: "juttiiu.firebasestorage.app",
-  messagingSenderId: "427997435382",
-  appId: "1:427997435382:web:074c4dfa90ed3de684a3d7",
-  measurementId: "G-3T0TZEETN9"
-};
+      apiKey: "AIzaSyAQFa9Xt-WSD3tKsksEyyAlDNBcwORZLYc",
+      authDomain: "mostafa-82878.firebaseapp.com",
+      projectId: "mostafa-82878",
+      storageBucket: "mostafa-82878.appspot.com",
+      messagingSenderId: "269958161580",
+      appId: "1:269958161580:web:b846d49578fb2068e6eb09",
+      measurementId: "G-VPEVY74FNF"
+    };
 
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
@@ -794,6 +878,24 @@
       });
     }
 
+    // تحديث البروفايل في القائمة الجانبية
+    function updateSidebarProfile() {
+      const avatarImg = $('#sidebar-avatar-img');
+      const usernameEl = $('#sidebar-username');
+      
+      if (state.currentUser) {
+        if (state.currentUser.avatar) {
+          avatarImg.src = state.currentUser.avatar;
+        } else {
+          avatarImg.src = "https://via.placeholder.com/80?text=صورة";
+        }
+        usernameEl.textContent = state.currentUser.name || state.currentUser.username || 'مستخدم';
+      } else {
+        avatarImg.src = "https://via.placeholder.com/80?text=ضيف";
+        usernameEl.textContent = "ضيف";
+      }
+    }
+
     function loadAdditionalIcons() {
       const iconCategories = [
         { title: "التعليم", icons: ["graduation-cap", "book", "pencil-alt"] },
@@ -828,7 +930,8 @@
     async function uploadAvatar(file, userId) {
       return new Promise((resolve, reject) => {
         const storageRef = firebase.storage().ref();
-        const avatarRef = storageRef.child(`avatars/${userId}/${file.name}`);
+        const fileExtension = file.name.split('.').pop();
+        const avatarRef = storageRef.child(`avatars/${userId}/profile.${fileExtension}`);
         
         const uploadTask = avatarRef.put(file);
         
@@ -1124,7 +1227,13 @@
         
         let avatarURL = '';
         if (avatarFile) {
-          avatarURL = await uploadAvatar(avatarFile, user.uid);
+          try {
+            avatarURL = await uploadAvatar(avatarFile, user.uid);
+          } catch (error) {
+            console.error('Error uploading avatar:', error);
+            // استمرار عملية التسجيل حتى لو فشل رفع الصورة
+            avatarURL = '';
+          }
         }
         
         await db.collection('users').doc(user.uid).set({
@@ -1134,6 +1243,18 @@
           avatar: avatarURL,
           createdAt: firebase.firestore.FieldValue.serverTimestamp()
         });
+        
+        // تحديث حالة المستخدم الحالي
+        state.currentUser = {
+          uid: user.uid,
+          name,
+          username,
+          email,
+          avatar: avatarURL
+        };
+        
+        saveCurrentUser();
+        refreshAuthUI();
         
         // مسح الحقول بعد التسجيل
         $('#reg-name').value = '';
@@ -1151,7 +1272,7 @@
         }, 1500);
         
         alert('تم إنشاء الحساب بنجاح ✅');
-        $('#to-login').click();
+        switchView('chat');
       } catch (error) {
         console.error('Registration error:', error);
         btn.innerHTML = '<i class="fas fa-user-plus"></i> إنشاء حساب';
@@ -1197,7 +1318,7 @@
         }, 1500);
         
         alert('مرحباً ' + state.currentUser.name + ' 👋');
-        switchView('settings');
+        switchView('chat');
       } catch (error) {
         console.error('Login error:', error);
         btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> دخول';
@@ -1259,6 +1380,9 @@
         pill.style.display = 'none';
         namePill.textContent = '';
       }
+      
+      // تحديث البروفايل في القائمة الجانبية
+      updateSidebarProfile();
       applySettingsToDOM();
     }
 
